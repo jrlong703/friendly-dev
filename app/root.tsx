@@ -8,6 +8,7 @@ import {
 } from 'react-router';
 
 import type { Route } from './+types/root';
+import Navbar from './components/NavBar';
 import './app.css';
 
 export const links: Route.LinksFunction = () => [
@@ -40,6 +41,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         <Links />
       </head>
       <body>
+        <Navbar />
         <main className='mx-auto my-8 max-w-6xl px-6'>{children}</main>
         <ScrollRestoration />
         <Scripts />
