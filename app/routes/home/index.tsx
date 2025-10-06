@@ -9,6 +9,7 @@ export const meta = ({}: Route.MetaArgs) => {
 };
 
 const Home: FC = () => {
+  console.log('Hello from Home...');
   return <section>My App</section>;
 };
 
