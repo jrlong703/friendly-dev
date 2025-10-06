@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 
 import type { Route } from './+types/index';
-import Hero from '~/components/Hero';
 
 export const meta = ({}: Route.MetaArgs) => {
   return [
@@ -11,11 +10,7 @@ export const meta = ({}: Route.MetaArgs) => {
 };
 
 const Home: FC = () => {
-  return (
-    <section>
-      <Hero name='JR' />
-    </section>
-  );
+  return <section>Home Page</section>;
 };
 
 export default Home;
