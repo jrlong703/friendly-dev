@@ -8,6 +8,7 @@ import {
 } from 'react-router';
 
 import type { Route } from './+types/root';
+import Navbar from './components/Navbar';
 import './app.css';
 
 export const links: Route.LinksFunction = () => [
@@ -23,7 +24,14 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export const meta = ({}: Route.MetaArgs) => {
+  return [
+    { title: 'The Friendly Dev' },
+    { name: 'description', content: 'Custom website development' },
+  ];
+};
+
+export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang='en'>
       <head>
@@ -33,19 +41,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <Navbar />
+        <main>{children}</main>
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
   );
-}
+};
 
 export default function App() {
   return <Outlet />;
 }
 
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+export const ErrorBoundary = ({ error }: Route.ErrorBoundaryProps) => {
   let message = 'Oops!';
   let details = 'An unexpected error occurred.';
   let stack: string | undefined;
@@ -62,14 +71,14 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main className='pt-16 p-4 container mx-auto'>
+    <main className='container mx-auto p-4 pt-16'>
       <h1>{message}</h1>
       <p>{details}</p>
       {stack && (
-        <pre className='w-full p-4 overflow-x-auto'>
+        <pre className='w-full overflow-x-auto p-4'>
           <code>{stack}</code>
         </pre>
       )}
     </main>
   );
-}
+};
