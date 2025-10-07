@@ -2,6 +2,7 @@ import { useState, type FC } from 'react';
 
 import type { Route } from './+types/index';
 import ProjectCard from '~/components/ProjectCard';
+import Pagination from '~/components/Pagination';
 
 export const loader = async ({
   request,
@@ -25,26 +26,6 @@ const ProjectsPage: FC<Route.ComponentProps> = ({ loaderData }) => {
   const indexOfFirst = indexOfLast - projectsPerPage;
   const currentProjects = projects.slice(indexOfFirst, indexOfLast);
 
-  // Pagination button render
-  const renderPagination = () => (
-    <div className='mt-8 flex justify-center gap-2'>
-      {Array.from({ length: totalPages }, (_, index) => (
-        <button
-          type='button'
-          key={index + 1}
-          onClick={() => setCurrentPage(index + 1)}
-          className={`cursor-pointer rounded px-3 py-1 ${
-            currentPage === index + 1
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-700 text-gray-200'
-          }`}
-        >
-          {index + 1}
-        </button>
-      ))}
-    </div>
-  );
-
   return (
     <>
       <h2 className='mb-8 text-3xl font-bold text-white'>🚀Projects</h2>
@@ -55,7 +36,11 @@ const ProjectsPage: FC<Route.ComponentProps> = ({ loaderData }) => {
         ))}
       </div>
 
-      {totalPages > 1 && renderPagination()}
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+      />
     </>
   );
 };
