@@ -5,10 +5,10 @@ import { Form } from 'react-router';
 
 export const action = async ({ request }: Route.ActionArgs) => {
   const formData = await request.formData();
-  const name = formData.get('name');
-  const email = formData.get('email');
-  const subject = formData.get('subject');
-  const message = formData.get('message');
+  const name = formData.get('name') as string;
+  const email = formData.get('email') as string;
+  const subject = formData.get('subject') as string;
+  const message = formData.get('message') as string;
   const data = {
     name,
     email,
@@ -16,12 +16,30 @@ export const action = async ({ request }: Route.ActionArgs) => {
     message,
   };
 
+  // Validate inputs
+  const errors: Record<string, string> = {};
+
+  if (!name) errors.name = 'Name is required';
+  if (!email) {
+    errors.email = 'Email is required';
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errors.email = 'Invalid email format';
+  }
+  if (!subject) errors.subject = 'Subject is required';
+  if (!message) errors.message = 'Message is required';
+
+  if (Object.keys(errors).length > 0) {
+    return { errors };
+  }
+
   // You could send to database here
 
   return { message: 'Form submitted successfully', data };
 };
 
 const ContactPage: FC<Route.ComponentProps> = ({ actionData }) => {
+  const errors = actionData?.errors || {};
+
   return (
     <div className='mx-auto mt-12 max-w-3xl bg-gray-900 px-6 py-8'>
       <h2 className='mb-8 text-center text-3xl font-bold text-white'>
@@ -48,6 +66,9 @@ const ContactPage: FC<Route.ComponentProps> = ({ actionData }) => {
             name='name'
             className='mt-1 w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-2 text-gray-100'
           />
+          {errors.name && (
+            <p className='mt-1 text-sm text-red-400'>{errors.name}</p>
+          )}
         </div>
         <div>
           <label
@@ -62,6 +83,9 @@ const ContactPage: FC<Route.ComponentProps> = ({ actionData }) => {
             name='email'
             className='mt-1 w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-2 text-gray-100'
           />
+          {errors.email && (
+            <p className='mt-1 text-sm text-red-400'>{errors.email}</p>
+          )}
         </div>
         <div>
           <label
@@ -76,6 +100,9 @@ const ContactPage: FC<Route.ComponentProps> = ({ actionData }) => {
             name='subject'
             className='mt-1 w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-2 text-gray-100'
           />
+          {errors.subject && (
+            <p className='mt-1 text-sm text-red-400'>{errors.subject}</p>
+          )}
         </div>
         <div>
           <label
@@ -89,6 +116,9 @@ const ContactPage: FC<Route.ComponentProps> = ({ actionData }) => {
             name='message'
             className='mt-1 w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-2 text-gray-100'
           />
+          {errors.message && (
+            <p className='mt-1 text-sm text-red-400'>{errors.message}</p>
+          )}
         </div>
 
         <button
