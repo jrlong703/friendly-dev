@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import FeaturedProjects from '~/components/FeaturedProjects';
+import AboutPreview from '~/components/AboutPreview';
 import type { Route } from './+types/index';
 
 export const meta = ({}: Route.MetaArgs) => {
@@ -25,6 +26,7 @@ const HomePage: FC<Route.ComponentProps> = ({ loaderData }) => {
   return (
     <>
       <FeaturedProjects projects={projects} count={2} />
+      <AboutPreview />
     </>
   );
 };
