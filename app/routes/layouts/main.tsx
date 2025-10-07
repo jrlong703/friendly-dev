@@ -1,5 +1,13 @@
 import type { FC } from 'react';
 import { Outlet } from 'react-router';
+import type { Route } from './+types/main';
+
+export const meta = ({}: Route.MetaArgs) => {
+  return [
+    { title: 'The Friendly Dev' },
+    { name: 'description', content: 'Custom website development' },
+  ];
+};
 
 const MainLayout: FC = () => {
   return (
