@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import type { Route } from './+types/index';
+import ProjectCard from '~/components/ProjectCard';
 
 export const loader = async ({
   request,
@@ -13,11 +14,16 @@ export const loader = async ({
 
 const ProjectsPage: FC<Route.ComponentProps> = ({ loaderData }) => {
   const { projects } = loaderData as { projects: Project[] };
-  console.log(projects);
 
   return (
     <>
       <h2 className='mb-8 text-3xl font-bold text-white'>🚀Projects</h2>
+
+      <div className='grid gap-6 sm:grid-cols-2'>
+        {projects.map((project) => (
+          <ProjectCard key={project.id} project={project} />
+        ))}
+      </div>
     </>
   );
 };
