@@ -2,7 +2,9 @@ import type { FC } from 'react';
 
 import type { Route } from './+types/index';
 
-export const loader = async ({ request }: Route.LoaderArgs): Promise<any> => {
+export const loader = async ({
+  request,
+}: Route.LoaderArgs): Promise<{ projects: Project[] }> => {
   const response = await fetch('http://localhost:5000/projects');
   const data = await response.json();
 
@@ -10,7 +12,7 @@ export const loader = async ({ request }: Route.LoaderArgs): Promise<any> => {
 };
 
 const ProjectsPage: FC<Route.ComponentProps> = ({ loaderData }) => {
-  const { projects } = loaderData;
+  const { projects } = loaderData as { projects: Project[] };
   console.log(projects);
 
   return (
