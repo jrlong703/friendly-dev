@@ -1,13 +1,40 @@
 import type { FC } from 'react';
 
-const ContactPage: FC = () => {
+import type { Route } from './+types';
+import { Form } from 'react-router';
+
+export const action = async ({ request }: Route.ActionArgs) => {
+  const formData = await request.formData();
+  const name = formData.get('name');
+  const email = formData.get('email');
+  const subject = formData.get('subject');
+  const message = formData.get('message');
+  const data = {
+    name,
+    email,
+    subject,
+    message,
+  };
+
+  // You could send to database here
+
+  return { message: 'Form submitted successfully', data };
+};
+
+const ContactPage: FC<Route.ComponentProps> = ({ actionData }) => {
   return (
     <div className='mx-auto mt-12 max-w-3xl bg-gray-900 px-6 py-8'>
       <h2 className='mb-8 text-center text-3xl font-bold text-white'>
         📬Contact Me
       </h2>
 
-      <form className='space-y-6'>
+      {actionData?.message ? (
+        <p className='mb-6 rounded-lg border border-green-500 bg-green-700 p-4 text-center text-green-100 shadow-md'>
+          {actionData.message}
+        </p>
+      ) : null}
+
+      <Form method='post' className='space-y-6'>
         <div>
           <label
             htmlFor='name'
@@ -70,7 +97,7 @@ const ContactPage: FC = () => {
         >
           Send Message
         </button>
-      </form>
+      </Form>
     </div>
   );
 };
