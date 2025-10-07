@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import type { Route } from './+types/index.tsx';
+import PostCard from '~/components/PostCard.js';
 
 export const loader = async ({
   request,
@@ -17,12 +18,13 @@ export const loader = async ({
 const BlogPage: FC<Route.ComponentProps> = ({ loaderData }) => {
   const { posts } = loaderData;
 
-  console.log(posts);
-
   return (
-    <>
+    <div className='mx-auto mt-10 max-w-3xl bg-gray-900 px-6 py-6'>
       <h2 className='mb-8 text-3xl font-bold text-white'>📝Blog</h2>
-    </>
+      {posts.map((post) => (
+        <PostCard key={post.slug} post={post} />
+      ))}
+    </div>
   );
 };
 
