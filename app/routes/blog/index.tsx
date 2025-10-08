@@ -1,7 +1,8 @@
-import type { FC } from 'react';
+import { useState, type FC } from 'react';
 
 import type { Route } from './+types/index.tsx';
 import PostCard from '~/components/PostCard.js';
+import Pagination from '~/components/Pagination.js';
 
 export const loader = async ({
   request,
@@ -19,14 +20,29 @@ export const loader = async ({
 };
 
 const BlogPage: FC<Route.ComponentProps> = ({ loaderData }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const postPerPage = 10;
   const { posts } = loaderData;
+
+  const totalPages = Math.ceil(posts.length / postPerPage);
+  const indexOfLast = currentPage * postPerPage;
+  const indexOfFirst = indexOfLast - postPerPage;
+  const currentPosts = posts.slice(indexOfFirst, indexOfLast);
 
   return (
     <div className='mx-auto mt-10 max-w-3xl bg-gray-900 px-6 py-6'>
       <h2 className='mb-8 text-3xl font-bold text-white'>📝Blog</h2>
-      {posts.map((post) => (
+      {currentPosts.map((post) => (
         <PostCard key={post.slug} post={post} />
       ))}
+
+      {totalPages > 1 && (
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={(page) => setCurrentPage(page)}
+        />
+      )}
     </div>
   );
 };
