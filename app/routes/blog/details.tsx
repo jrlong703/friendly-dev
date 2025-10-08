@@ -39,7 +39,7 @@ const BlogPostDetailsPage: FC<Props> = ({ loaderData }) => {
         {postMeta.title}
       </h1>
       <p className='mb-6 text-sm text-gray-400'>
-        {new Date(postMeta.date).toLocaleDateString()}
+        {new Date(postMeta.date).toDateString()}
       </p>
 
       <div className='prose prose-invert mb-12 max-w-none'>
