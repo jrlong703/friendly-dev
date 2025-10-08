@@ -8,3 +8,11 @@ type Project = {
   category: string;
   featured: boolean;
 };
+
+type PostMeta = {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string;
+};
